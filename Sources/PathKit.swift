@@ -768,39 +768,14 @@ internal func +(lhs: String, rhs: String) -> Path {
     // Absolute paths replace relative paths
     return Path(rhs)
   } else {
-    var lSlice = getComponents(lhs).fullSlice
-    var rSlice = getComponents(rhs).fullSlice
-
-    // Get rid of trailing "/" at the left side
-    if lSlice.count > 1 && lSlice.last == Path.separator {
-      lSlice.removeLast()
-    }
-
-    // Advance after the first relevant "."
-    lSlice = lSlice.filter { $0 != "." }.fullSlice
-    rSlice = rSlice.filter { $0 != "." }.fullSlice
-
-    // Eats up trailing components of the left and leading ".." of the right side
-    while lSlice.last != ".." && !lSlice.isEmpty && rSlice.first == ".." {
-      if lSlice.count > 1 || lSlice.first != Path.separator {
-        // A leading "/" is never popped
-        lSlice.removeLast()
-      }
-      if !rSlice.isEmpty {
-        rSlice.removeFirst()
-      }
-
-      switch (lSlice.isEmpty, rSlice.isEmpty) {
-      case (true, _):
-        break
-      case (_, true):
-        break
-      default:
-        continue
-      }
-    }
-
-    return Path(components: lSlice + rSlice)
+    let cStr = lhs.withCString { lhsCStr in
+        rhs.withCString { rhsCStr in
+             return PATAppend(lhsCStr, rhsCStr)
+        }
+    }!
+    let ptr = UnsafeMutableRawPointer(mutating: cStr)!
+    let str = String(bytesNoCopy: ptr, length: strlen(cStr), encoding: .utf8, freeWhenDone: true)!
+    return Path(str)
   }
 }
 
