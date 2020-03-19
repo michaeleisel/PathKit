@@ -156,7 +156,9 @@ extension Path {
   ///   representation.
   ///
   public func normalize() -> Path {
-    return Path(NSString(string: self.path).standardizingPath)
+    var string = NSString(string: self.path).standardizingPath
+    string.makeContiguousUTF8()
+    return Path(string)
   }
 
   /// De-normalizes the path, by replacing the current user home directory with "~".
@@ -774,7 +776,8 @@ internal func +(lhs: String, rhs: String) -> Path {
         }
     }!
     let ptr = UnsafeMutableRawPointer(mutating: cStr)!
-    let str = String(bytesNoCopy: ptr, length: strlen(cStr), encoding: .utf8, freeWhenDone: true)!
+    var str = String(bytesNoCopy: ptr, length: strlen(cStr), encoding: .utf8, freeWhenDone: true)!
+    str.makeContiguousUTF8()
     return Path(str)
   }
 }
