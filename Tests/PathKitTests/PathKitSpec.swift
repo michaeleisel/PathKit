@@ -1,6 +1,6 @@
 import Foundation
 import Spectre
-@testable import PathKit
+@testable import FastPathKit
 
 
 struct ThrowError: Error, Equatable {}

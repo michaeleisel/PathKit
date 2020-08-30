@@ -11,7 +11,7 @@ let package = Package(
     .package(url:"https://github.com/kylef/Spectre.git", .upToNextMinor(from:"0.9.0"))
   ],
   targets: [
-    .target(name: "PathKit", dependencies: ["PathKitCExt"], path: "Sources"),
+    .target(name: "FastPathKit", dependencies: ["PathKitCExt"], path: "Sources"),
     .testTarget(name: "PathKitTests", dependencies: ["FastPathKit", "Spectre"], path:"Tests/PathKitTests")
   ]
 )
