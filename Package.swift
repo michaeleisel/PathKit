@@ -2,9 +2,9 @@
 import PackageDescription
 
 let package = Package(
-  name: "PathKit",
+  name: "FastPathKit",
   products: [
-    .library(name: "PathKit", targets: ["PathKit"]),
+    .library(name: "FastPathKit", targets: ["FastPathKit"]),
   ],
   dependencies: [
     .package(url:"https://github.com/michaeleisel/PathKitCExt.git", .branch("master")),
@@ -12,6 +12,6 @@ let package = Package(
   ],
   targets: [
     .target(name: "PathKit", dependencies: ["PathKitCExt"], path: "Sources"),
-    .testTarget(name: "PathKitTests", dependencies: ["PathKit", "Spectre"], path:"Tests/PathKitTests")
+    .testTarget(name: "PathKitTests", dependencies: ["FastPathKit", "Spectre"], path:"Tests/PathKitTests")
   ]
 )
