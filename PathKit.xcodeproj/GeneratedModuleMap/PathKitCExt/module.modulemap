@@ -1,0 +1,4 @@
+module PathKitCExt {
+    umbrella "/Users/meisel/projects/PathKit/.build/checkouts/PathKitCExt/Sources/PathKitCExt/include"
+    export *
+}
